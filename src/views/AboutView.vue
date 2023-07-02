@@ -1,11 +1,11 @@
 <template>
-  <div class="about">
-    <h1>My Cesium Projects</h1>
+  <div class="flex flex-col">
+    <div><h1>My Cesium Projects</h1></div>
     <div>
       <ul>
         <p><li><a href="../">A project</a></li></p>
       </ul>
-     </div>
+    </div>
   </div>
 </template>
 
