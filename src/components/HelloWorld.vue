@@ -8,7 +8,7 @@ defineProps({
 </script>
 
 <template>
-  <h1>My Cesium Projects</h1>
+  <h2>My Cesium Projects</h2>
   <!-- <div class="greetings">
     <h1 class="green">{{ msg }}</h1>
     <h3 class="underline">
@@ -20,11 +20,12 @@ defineProps({
 </template>
 
 <style scoped>
-h1 {
-  font-weight: 500;
-  font-size: 2.6rem;
-  position: relative;
+h2 {
+  font-weight: 1500;
+  font-size: 1.6rem;
+  /* position: relative; */
   top: -10px;
+  width: 100%;
 }
 
 h3 {

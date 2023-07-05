@@ -4,7 +4,7 @@ import HelloWorld from './components/HelloWorld.vue'
 import './style.css';
 import cesiumViewer from './components/cesium.js'
 
-cesiumViewer();
+cesiumViewer().then(()=>console.log('cesium loading success'));;
 
 </script>
 

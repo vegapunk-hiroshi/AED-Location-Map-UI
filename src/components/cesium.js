@@ -1,25 +1,44 @@
-import { Ion, Viewer, createWorldTerrain, createOsmBuildings, Cartesian3, Math } from "cesium";
+import { Ion, IonResource, Viewer, KmlDataSource, Color} from "cesium";
 
-const cesiumViewer = () => {
-    // Your access token can be found at: https://cesium.com/ion/tokens.
-    // This is the default access token
-    Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJlYWE1OWUxNy1mMWZiLTQzYjYtYTQ0OS1kMWFjYmFkNjc5YzciLCJpZCI6NTc3MzMsImlhdCI6MTYyNzg0NTE4Mn0.XcKpgANiY19MC4bdFUXMVEBToBmqS8kuYpUlxJHYZxk';
+const cesiumViewer = async () => {
+    // Grant CesiumJS access to your ion assets
+    Ion.defaultAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJiYzM4YTAzNS00MDI0LTRiYWQtODgxNy03ZGJlOWE2M2Q1YzciLCJpZCI6MTUxMTQ4LCJpYXQiOjE2ODg0MzM4MTR9.HwJ6PUcGbJx5lhBbgk92KTfviWtgJvY4JocmtNYediU";
 
-    // Initialize the Cesium Viewer in the HTML element with the `cesiumContainer` ID.
-    const viewer = new Viewer('cesiumContainer', {
-    terrainProvider: createWorldTerrain()
-    });
+    const viewer = new Viewer("cesiumContainer");
 
-    // Add Cesium OSM Buildings, a global 3D buildings layer.
-    viewer.scene.primitives.add(createOsmBuildings());   
+    // AED location opendata for each ward in Sendai
+    let kmlIds = [1934994, 1939935, 1939936, 1939937, 1940090];
+    let zoomTargetDataSource;
 
-    // Fly the camera to San Francisco at the given longitude, latitude, and height.
-    viewer.camera.flyTo({
-    destination : Cartesian3.fromDegrees(-122.4175, 37.655, 400),
-    orientation : {
-        heading : Math.toRadians(0.0),
-        pitch : Math.toRadians(-15.0),
+    const loadKml = async (id) => {
+        const resource = await IonResource.fromAssetId(id);//1934994
+        const dataSource = await KmlDataSource.load(resource, {
+            camera: viewer.scene.camera,
+            canvas: viewer.scene.canvas,
+        });
+        const obj = await viewer.dataSources.add(dataSource);
+        await viewer.zoomTo(dataSource);
+        const billboards = obj._primitives._primitives[0]._billboardCollection._billboards;
+        const positions = billboards.map((e) => e._position);
+        positions.forEach((p) => {
+            viewer.entities.add({
+              position: p,
+              billboard: {
+                image: "./AED_Logo_USA.jpg",
+                // scale: 1,
+                width: 20, // default: undefined
+                height: 20, // default: undefined
+              }
+            });
+          });
+    };
+
+    try {
+        await kmlIds.forEach(id => {
+            loadKml(id);
+        });
+    } catch (error) {
+        console.log(error);
     }
-    });
 }
 export default cesiumViewer;
