@@ -7,7 +7,7 @@
       <IconStyle>
         <scale>1.1</scale>
         <Icon>
-          <href>https://www.gstatic.com/mapspro/images/stock/101-pink-dot.png</href>
+          <href>./101-pink-dot.png</href>
         </Icon>
         <hotSpot x="16" xunits="pixels" y="32" yunits="insetPixels" />
       </IconStyle>
@@ -19,7 +19,7 @@
       <IconStyle>
         <scale>1.1</scale>
         <Icon>
-          <href>https://www.gstatic.com/mapspro/images/stock/101-pink-dot.png</href>
+          <href>./101-pink-dot.png</href>
         </Icon>
         <hotSpot x="16" xunits="pixels" y="32" yunits="insetPixels" />
       </IconStyle>
@@ -41,7 +41,7 @@
       <IconStyle>
         <scale>1.1</scale>
         <Icon>
-          <href>https://www.gstatic.com/mapspro/images/stock/22-blue-dot.png</href>
+          <href>./22-blue-dot.png</href>
         </Icon>
         <hotSpot x="16" xunits="pixels" y="32" yunits="insetPixels" />
       </IconStyle>
@@ -53,7 +53,7 @@
       <IconStyle>
         <scale>1.1</scale>
         <Icon>
-          <href>https://www.gstatic.com/mapspro/images/stock/22-blue-dot.png</href>
+          <href>./22-blue-dot.png</href>
         </Icon>
         <hotSpot x="16" xunits="pixels" y="32" yunits="insetPixels" />
       </IconStyle>

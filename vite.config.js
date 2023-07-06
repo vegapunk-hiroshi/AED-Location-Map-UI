@@ -11,6 +11,11 @@ export default defineConfig({
       rebuildCesium: true
     })
   ],
+  server: {
+    proxy: {
+      '/mapspro': 'https://www.gstatic.com/mapspro/images/stock'
+    },
+  },
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
