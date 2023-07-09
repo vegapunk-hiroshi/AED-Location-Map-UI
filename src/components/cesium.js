@@ -23,7 +23,6 @@ const cesiumViewer = async () => {
             canvas: viewer.scene.canvas,
         });
         const obj = await viewer.dataSources.add(dataSource);
-        console.log('OBJECT',obj)
         await viewer.zoomTo(obj);
 
         // const billboards = obj._primitives._primitives[0]._billboardCollection._billboards;

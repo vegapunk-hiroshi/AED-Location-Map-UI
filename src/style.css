@@ -1,6 +1,7 @@
 html,
 body,
 #cesiumContainer {
+  flex: 5;
   width: 100%;
   height: 100%;
   margin: 0;
@@ -8,6 +9,13 @@ body,
   overflow: hidden;
 }
 
+
 #app {
-  width: 20%;
+  width: 100%;
+  padding: 10px;
+  /* color: blue; */
 }
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

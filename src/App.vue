@@ -1,28 +1,24 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
-import './style.css';
-import cesiumViewer from './components/cesium.js'
-
-cesiumViewer().then(()=>console.log('cesium loading success'));;
+import Cesium from './components/Cesium.vue'
+import Main from './components/Main.vue'
+// import './style.css';
 
 </script>
 
 <template>
-  <header>
-    <!-- <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" /> -->
+    <!-- <img alt="Vue logo" class="pr-6" src="@/assets/logo.svg" width="125" height="125" /> -->
     <!-- <p class="text-3xl font-bold underline"> test test</p> -->
 
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+    <div>
+      <Main/>
+      <Cesium project-title="AED locations in Sendai"/>
+    </div>
+
 
       <!-- <nav>
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/about">About</RouterLink>
       </nav> -->
-    </div>
-  </header>
-
   <!-- <RouterView /> -->
 </template>
 

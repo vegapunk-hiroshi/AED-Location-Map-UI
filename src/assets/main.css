@@ -1,11 +1,14 @@
 @import './base.css';
 
+
 #app {
-  max-width: 1280px;
+  max-width: 2280px;
   margin: 0 auto;
   padding: 2rem;
 
   font-weight: normal;
+  /* color: blue; */
+
 }
 
 a,
