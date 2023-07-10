@@ -9,7 +9,7 @@ import Main from './components/Main.vue'
     <!-- <img alt="Vue logo" class="pr-6" src="@/assets/logo.svg" width="125" height="125" /> -->
     <!-- <p class="text-3xl font-bold underline"> test test</p> -->
 
-    <div>
+    <div class="bg-cyan-600 p-5">
       <Main/>
       <Cesium project-title="AED locations in Sendai"/>
     </div>

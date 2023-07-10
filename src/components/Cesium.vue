@@ -13,7 +13,7 @@ defineProps({
 
 <template>
 
-  <ol class="list-disc list-inside text-xl">
+  <ol class="p-2 list-disc list-inside text-xl text-white">
     <li>{{ projectTitle }}</li>
   </ol>
 

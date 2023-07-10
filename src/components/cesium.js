@@ -24,27 +24,6 @@ const cesiumViewer = async () => {
         });
         const obj = await viewer.dataSources.add(dataSource);
         await viewer.zoomTo(obj);
-
-        // const billboards = obj._primitives._primitives[0]._billboardCollection._billboards;
-        // const positions = billboards.map((e) => e._position);
-        // const entities = dataSource._entityCollection._entities._array;
-        // console.log(entities)
-        // const positions = entities.map((e)=> {
-        //     const cartesian = e._position._value;
-        //     return cartesian
-        // });
-        // console.log(positions)
-        // positions.forEach((p) => {
-        //     viewer.entities.add({
-        //       position: p,
-        //       billboard: {
-        //         image: "./AED_Logo_USA.jpg",
-        //         // scale: 1,
-        //         width: 20, // default: undefined
-        //         height: 20, // default: undefined
-        //       }
-        //     });
-        //   });
     };
 
     try {
