@@ -13,7 +13,7 @@ const cesiumViewer = async () => {
 
     // AED location opendata for each ward in Sendai
     // let kmlIds = [1934994, 1939935, 1939936, 1939937, 1940090];
-    const KMLBasePath = "src/assets/SendaiCityOpenData/AED_installed_facilities/"
+    const KMLBasePath = "./assets/SendaiCityOpenData/AED_installed_facilities/"
     let kmlPaths = ["aed_aoba_20221223.kml", "aed_izumi_20221223.kml", "aed_miyagino_20221223.kml", "aed_taihaku_20221223.kml", "aed_wakabayashi_20221223.kml"];
 
     const loadKml = async (path) => {
