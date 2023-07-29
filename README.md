@@ -1,6 +1,12 @@
 # Cesium-vite-playground
 A code sandbox where I publish my customized CesiumJS projects, built upon Vite scaffold
 
+## Used stack
+1. Vite - Development kit
+2. VueJS - Frontend framework
+3. Cesium - Main Spatial analysis tool
+
+
 ## vue-project-test
 
 This template should help get you started developing with Vue 3 in Vite.

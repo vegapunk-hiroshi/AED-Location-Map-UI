@@ -2,7 +2,12 @@
 import Cesium from './components/Cesium.vue'
 import Main from './components/Main.vue'
 // import './style.css';
-
+defineProps({
+  projectList: {
+    type: String,
+    required: true,
+  }
+})
 </script>
 
 <template>
