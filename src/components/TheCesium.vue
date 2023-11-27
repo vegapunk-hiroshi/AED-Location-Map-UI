@@ -7,14 +7,14 @@
     </ol>
 
     <!-- <p>Click anywhere on the map and filter the icons within 10km from the point you clicked.</p> -->
-    <!-- <button @click = zoomToCurrentLocation >Zoom to current location</button> -->
+    <button class="text-m border-2 rounded-md p-2 m-1" @click = zoomTo >Zoom to current location</button>
     <div>Current Location: {{ currentLocation }}</div>
   </div>
 
 </template>
 
 <script>
-import {initViewer, showKML, zoomToCurrentLocation} from '../components/cesium.js'
+import {initViewer, showKML, zoomToCurrentLocation, addPoint} from '../components/cesium.js'
 
 
 export default {
@@ -25,7 +25,7 @@ export default {
       location: {
         latitude: 0,
         longitude: 0,
-        accuracy: 0
+        accuracy: 0,
       },
       viewer: null
     }
@@ -35,24 +35,28 @@ export default {
       return `Latitude : ${this.location.latitude}, 
       Longitude: ${this.location.longitude}, 
       More or less ${this.location.accuracy} meters.`
-      
     }
   },
   created() {
-    // this.viewer = initViewer();
-    // this.viewer.then(() => {
-    //   console.log('Viewer Loaded');
-    // })
+    setTimeout(() => {
+      const viewer = initViewer();
+      viewer.then((viewer) => {
+        this.viewer = viewer;
+        console.log('Viewer Loaded');
+      })}, 100);
   },
   mounted() {
-    // console.log('created cesium comp', this.projectTitle, this.testAPI)
+    console.log('mounted')
     this.getCurrentLocation();
   },
   methods: {
-    zoomToCurrentLocation() {
-      this.zoomToCurrentLocation(this.viewer, this.location);
+    zoomTo() {
+      console.log('zoommmm', this.viewer);
+      if( this.viewer) {
+        zoomToCurrentLocation(this.viewer, this.location);
+      }
     },
-    getCurrentLocation() {
+    async getCurrentLocation() {
       function getPosition(options) {
         return new Promise((resolve, reject) => {
           navigator.geolocation.getCurrentPosition(resolve, reject, options);
@@ -76,7 +80,8 @@ export default {
             latitude: crd.latitude,
             longitude: crd.longitude,
             accuracy: crd.accuracy
-          }
+          };
+          addPoint(this.viewer, this.location);
         })
         .catch((err) => {
           console.warn(`ERROR(${err.code}): ${err.message}`);

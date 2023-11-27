@@ -1,17 +1,19 @@
-import { Ion, Viewer, KmlDataSource, 
+import { Ion, Viewer, KmlDataSource, Math,
     ImageryLayer, OpenStreetMapImageryProvider,
 Cartesian3, Cartographic, ScreenSpaceEventType, 
-ScreenSpaceEventHandler} from "cesium";
-import { vi } from "vitest";
+ScreenSpaceEventHandler, SceneMode, Color} from "cesium";
 
 const initViewer = async () => {
     // Grant CesiumJS access to your ion assets
     Ion.defaultAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJiYzM4YTAzNS00MDI0LTRiYWQtODgxNy03ZGJlOWE2M2Q1YzciLCJpZCI6MTUxMTQ4LCJpYXQiOjE2ODg0MzM4MTR9.HwJ6PUcGbJx5lhBbgk92KTfviWtgJvY4JocmtNYediU";
 
     const viewer = new Viewer("cesiumContainer", {
-        baseLayer: new ImageryLayer(new OpenStreetMapImageryProvider({
-            url : 'https://a.tile.openstreetmap.org/'
-        })),
+        sceneMode: SceneMode.SCENE2D,
+        // baseLayerPicker: false,
+        baseLayer: ImageryLayer.fromWorldImagery(),
+        // baseLayer: new ImageryLayer(new OpenStreetMapImageryProvider({
+        //     url : 'https://a.tile.openstreetmap.org/'
+        // })),
     });
 
     return viewer
@@ -79,11 +81,32 @@ const showKML = async () => {
  * @param {*} latlon Object
  */
 const zoomToCurrentLocation = (viewer, latlon) => {
+    console.log(viewer, latlon)
     const cartesian = Cartographic.toCartesian(new Cartographic(
-        latlon.longitude,
-        latlon.latitude
-    ))
-    viewer.camera.lookAt(cartesian)
+        Math.toRadians(latlon.longitude),
+        Math.toRadians(latlon.latitude),
+        0
+    ));
+    console.log('viewer', viewer, cartesian)
+    viewer.camera.lookAt(
+        cartesian,
+        new Cartesian3(0, 0, 10))
 }
 
-export {initViewer, showKML, zoomToCurrentLocation};
+const addPoint = (viewer, latlon) => {
+    const cartesian = Cartographic.toCartesian(new Cartographic(
+        Math.toRadians(latlon.longitude),
+        Math.toRadians(latlon.latitude),
+        0
+    ));
+    console.log(cartesian)
+    viewer.entities.add({
+        position: cartesian,
+        point: {
+            pixelSize: 10,
+            color: Color.RED
+        }
+    })
+}
+
+export {initViewer, showKML, zoomToCurrentLocation, addPoint};
