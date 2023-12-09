@@ -1,7 +1,13 @@
 import { Ion, Viewer, KmlDataSource, Math,
     ImageryLayer, OpenStreetMapImageryProvider,
 Cartesian3, Cartographic, ScreenSpaceEventType, 
-ScreenSpaceEventHandler, SceneMode, Color} from "cesium";
+ScreenSpaceEventHandler, SceneMode, Color, DataSourceCollection} from "cesium";
+import axios from "axios";
+import { data } from "autoprefixer";
+
+const scanxapi = axios.create({
+    baseURL: 'http://127.0.0.1:8000'
+  });
 
 const initViewer = async () => {
     // Grant CesiumJS access to your ion assets
@@ -10,103 +16,74 @@ const initViewer = async () => {
     const viewer = new Viewer("cesiumContainer", {
         sceneMode: SceneMode.SCENE2D,
         // baseLayerPicker: false,
-        baseLayer: ImageryLayer.fromWorldImagery(),
-        // baseLayer: new ImageryLayer(new OpenStreetMapImageryProvider({
-        //     url : 'https://a.tile.openstreetmap.org/'
-        // })),
+        // baseLayer: ImageryLayer.fromWorldImagery(),
+        baseLayer: new ImageryLayer(new OpenStreetMapImageryProvider({
+            url : 'https://a.tile.openstreetmap.org/'
+        })),
+        animation: false,
+        homeButton: false,
+        fullscreenButton: false,
+        infoBox: false,
+        sceneModePicker: false,
+        selectionIndicator: false,
+        timeline: false,
+        navigationHelpButton: false,
+        navigationInstructionsInitiallyVisible: false,
+        clockViewModel: null
+        
     });
-
     return viewer
 }
 
-const showKML = async () => {
+const showKml = async (viewer, currentLocation) => {
+    console.log('start show kml')
 
-    // AED location opendata for each ward in Sendai
-    // let kmlIds = [1934994, 1939935, 1939936, 1939937, 1940090];
-    const KMLBasePath = "./assets/SendaiCityOpenData/AED_installed_facilities/"
-    let kmlPaths = ["aed_aoba_20221223.kml", "aed_izumi_20221223.kml", "aed_miyagino_20221223.kml", "aed_taihaku_20221223.kml", "aed_wakabayashi_20221223.kml"];
+    let locations = await scanxapi.get('/locations');
+    // console.log(locations)
+    console.log(locations.data);
 
-    const loadKml = async (path) => {
-        
-        const dataSource = await KmlDataSource.load(path, {
-            camera: viewer.scene.camera,
-            canvas: viewer.scene.canvas,
-        });
-        const objects = await viewer.dataSources.add(dataSource);
-        await viewer.zoomTo(objects);
-    };
+    // let datasource = new DataSourceCollection();
 
-    try {
-        await kmlPaths.forEach(kmlPath => {
-            loadKml(KMLBasePath + kmlPath);
-        });
-    } catch (error) {
-        console.log(error);
-    }
-
-    // TODO: send the clicked location to API that calculates the distance between the POI locations
-
-    // kml datasource
-    const filterKml = (kml, mouseCarto) => {  
-        // console.log(mouseCarto, kml)
-        return kml
-    }
-
-    viewer.screenSpaceEventHandler.setInputAction((movement) => {
-        const cartesian = viewer.scene.pickPosition(movement.position)
-        const mouseCarto = Cartographic.fromCartesian(cartesian);
-        const positionArray = viewer.dataSources._dataSources.map(kmlSource => {
-            
-            let entityArray = kmlSource.entities.values;
-            let positionArray = entityArray.map((entity => entity.position))
-            console.log(positionArray)
-            return positionArray;
-
-        });
-        // console.log(entities)
-        entities.forEach(kml => {
-            filterKml(kml, mouseCarto);
-        })
-        
-
-    }, ScreenSpaceEventType.LEFT_CLICK);
-    // console.log(viewer.entities.values)
-
-    // console.log(viewer.dataSources._dataSources)
+    locations.data.forEach((loc) => {
+        addPoint(viewer, loc);
+    });
+    await viewer.zoomTo(viewer.entities);
 }
 
-/**
- *  Hellos
- * @param {*} viewer Viewer
- * @param {*} latlon Object
- */
 const zoomToCurrentLocation = (viewer, latlon) => {
-    console.log(viewer, latlon)
-    const cartesian = Cartographic.toCartesian(new Cartographic(
-        Math.toRadians(latlon.longitude),
-        Math.toRadians(latlon.latitude),
-        0
-    ));
-    console.log('viewer', viewer, cartesian)
-    viewer.camera.lookAt(
-        cartesian,
-        new Cartesian3(0, 0, 10))
+    viewer.camera.flyTo({
+        destination: Cartesian3.fromDegrees(latlon.longitude, latlon.latitude),
+        duration: 0.5
+      });
 }
 
-const addPoint = (viewer, latlon) => {
+const addPoint = (viewer, place_mark) => {
     const cartesian = Cartographic.toCartesian(new Cartographic(
-        Math.toRadians(latlon.longitude),
-        Math.toRadians(latlon.latitude),
+        Math.toRadians(place_mark.longitude),
+        Math.toRadians(place_mark.latitude),
         0
     ));
-    console.log(cartesian)
     viewer.entities.add({
         position: cartesian,
         point: {
             pixelSize: 10,
-            color: Color.RED
+            color: place_mark.style === '#icon-101'? Color.RED : Color.BLUE
         }
-    })
+    });
 }
 
-export {initViewer, showKML, zoomToCurrentLocation, addPoint};
+const showPathToAED = async (location) => {
+    const longitude = location.longitude;
+    const latitude = location.latitude;
+    // const queryPath = `/closest/?longitude=$(longitude)&latitude=$(latitude)`;
+    const queryPath = '/closest/?longitude=' + longitude + '&latitude=' + latitude;
+    
+
+    let closest = await scanxapi.get(queryPath);
+    console.log('closest', closest, queryPath)
+    
+
+}
+
+
+export {initViewer, showKml, zoomToCurrentLocation, showPathToAED};

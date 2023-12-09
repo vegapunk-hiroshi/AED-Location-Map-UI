@@ -16,7 +16,6 @@ const router = createRouter({
         {
             path: '/project1', component: App
         }
-
     ]
 })
 

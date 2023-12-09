@@ -17,7 +17,6 @@
 <script>
 import TheCesium from './components/TheCesium.vue'
 import TheHeader from './components/TheHeader.vue'
-import axios from "axios";
 
 
 export default {
@@ -31,43 +30,10 @@ export default {
     }
   },
   computed: {
-    testAPI() {
-      return 3 ? 'Hello' : 'World'
-    }
-  },
-  
-  created() {
-    const instance = axios.create({
-      baseURL: 'http://127.0.0.1:8000'
-    });
-
-
-    // Use the instance to send requests
-    // instance.get('/items/foo').then(response => {
-    //   console.log('API request result', response.data);
-    //   this.testAPI = response.data;
-    // });
 
   },
   watch: {
-    testAPI: {
-      deep: true
-    }
   }
 }
-// import './style.css';
-
-
-
-
-// defineProps({
-//   projectList: {
-//     type: String,
-//     required: true,
-//   },
-//   testAPI: {
-//     type: Number
-//   }
-// })
 </script>
 
