@@ -1,6 +1,6 @@
 import { Ion, Viewer, KmlDataSource, Math,
     ImageryLayer, OpenStreetMapImageryProvider,
-Cartesian3, Cartographic, ScreenSpaceEventType, 
+Cartesian3, Cartographic, ScreenSpaceEventType, GeoJsonDataSource,
 ScreenSpaceEventHandler, SceneMode, Color, DataSourceCollection} from "cesium";
 import axios from "axios";
 import { data } from "autoprefixer";
@@ -52,7 +52,7 @@ const showKml = async (viewer, currentLocation) => {
 
 const zoomToCurrentLocation = (viewer, latlon) => {
     viewer.camera.flyTo({
-        destination: Cartesian3.fromDegrees(latlon.longitude, latlon.latitude),
+        destination: Cartesian3.fromDegrees(latlon.longitude, latlon.latitude, 5),
         duration: 0.5
       });
 }
@@ -72,16 +72,33 @@ const addPoint = (viewer, place_mark) => {
     });
 }
 
-const showPathToAED = async (location) => {
+const showPathToAED = async (viewer, location) => {
     const longitude = location.longitude;
     const latitude = location.latitude;
-    // const queryPath = `/closest/?longitude=$(longitude)&latitude=$(latitude)`;
     const queryPath = '/closest/?longitude=' + longitude + '&latitude=' + latitude;
-    
-
     let closest = await scanxapi.get(queryPath);
-    console.log('closest', closest, queryPath)
-    
+    console.log('closest', closest, closest.status);
+    console.log('data', closest.data);
+    if(closest.status == 200) {
+        const dataSource = GeoJsonDataSource.load(closest.data);
+        viewer.dataSources.add(dataSource);
+        viewer.zoomTo(dataSource);
+        let cartesians = [];
+        
+        closest.data.coordinates.forEach((lonlat)=>{
+            // console.log(lonlat)
+            cartesians.push(Cartesian3.fromDegrees(lonlat[0], lonlat[1]));
+        });
+        viewer.entities.add({
+            polyline: {
+                positions: cartesians,
+                width: 2,
+                material: Color.RED,
+                clampToGround: true,
+              },
+        });
+    }
+
 
 }
 

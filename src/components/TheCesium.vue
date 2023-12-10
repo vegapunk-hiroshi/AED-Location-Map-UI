@@ -89,10 +89,11 @@ export default {
         .catch((err) => {
           console.warn(`ERROR(${err.code}): ${err.message}`);
         });
-
     },
     guideToAED() {
-      showPathToAED(this.location);
+      this.viewer.then((viewer) => {
+        showPathToAED(viewer, this.location);
+      }).catch((e)=>console.log(e));
     }
   }
 }
