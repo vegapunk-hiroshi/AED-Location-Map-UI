@@ -16,10 +16,10 @@ const initViewer = async () => {
     const viewer = new Viewer("cesiumContainer", {
         sceneMode: SceneMode.SCENE2D,
         // baseLayerPicker: false,
-        // baseLayer: ImageryLayer.fromWorldImagery(),
-        baseLayer: new ImageryLayer(new OpenStreetMapImageryProvider({
-            url : 'https://a.tile.openstreetmap.org/'
-        })),
+        baseLayer: ImageryLayer.fromWorldImagery(),
+        // baseLayer: new ImageryLayer(new OpenStreetMapImageryProvider({
+        //     url : 'https://a.tile.openstreetmap.org/'
+        // })),
         animation: false,
         homeButton: false,
         fullscreenButton: false,
@@ -52,7 +52,7 @@ const showKml = async (viewer, currentLocation) => {
 
 const zoomToCurrentLocation = (viewer, latlon) => {
     viewer.camera.flyTo({
-        destination: Cartesian3.fromDegrees(latlon.longitude, latlon.latitude, 5),
+        destination: Cartesian3.fromDegrees(latlon.longitude, latlon.latitude, 50),
         duration: 0.5
       });
 }

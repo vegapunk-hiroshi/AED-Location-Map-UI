@@ -17,7 +17,7 @@
 
 <script>
 import {initViewer, showKml, zoomToCurrentLocation, showPathToAED} from '../components/cesium.js'
-import { Cartesian3 } from 'cesium'
+import { Cartesian3, Color} from 'cesium'
 
 export default {
   name: 'Cesium',
@@ -56,6 +56,11 @@ export default {
         zoomToCurrentLocation(viewer, this.location);
       });
     },
+    guideToAED() {
+      this.viewer.then((viewer) => {
+        showPathToAED(viewer, this.location);
+      }).catch((e)=>console.log(e));
+    },
     async getCurrentLocation() {
       function getPosition(options) {
         return new Promise((resolve, reject) => {
@@ -77,24 +82,21 @@ export default {
             longitude: crd.longitude,
             accuracy: crd.accuracy
           };
-          this.viewer.entities.add({
-              position: Cartesian3.fromDegrees(crd.longitude, crd.latitude),
-              point: {
-                  pixelSize: 50,
-                  color: Color.GREEN
-              }
-          });
 
+          this.viewer.then((viewer) => {
+            viewer.entities.add({
+                position: Cartesian3.fromDegrees(crd.longitude, crd.latitude),
+                point: {
+                    pixelSize: 50,
+                    color: Color.ORANGE
+                }
+            });
+          });
         })
         .catch((err) => {
           console.warn(`ERROR(${err.code}): ${err.message}`);
         });
     },
-    guideToAED() {
-      this.viewer.then((viewer) => {
-        showPathToAED(viewer, this.location);
-      }).catch((e)=>console.log(e));
-    }
   }
 }
 </script>
