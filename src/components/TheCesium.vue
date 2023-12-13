@@ -1,15 +1,20 @@
 <template>
   <div class="text-white">
-
-    <ol class="p-2 list-disc list-inside text-xl ">
-    </ol>
-
     <div class="grid grid-flow-col justify-stretch">
       <div>
-        <button class="text-m border-2 rounded-md p-2 m-1" @click = zoomTo >Zoom to current location</button>
-        <button class="text-m border-2 rounded-md p-2 m-1" @click = guideToAED >Show the path to the closest AED</button>
+        <button class="text-xl border-2 rounded-md p-2 m-2" @click = zoomTo >
+          Zoom to current location
+        </button>
+        <button class="text-xl border-2 rounded-md p-2 m-2" @click = guideToAED >
+          Show the path to the closest AED
+        </button>
       </div>
-      <div class="pt-2 text-xl">Current Location: {{ currentLocation }}</div>
+      <div class="">
+        <div class="border-2 p-2 text-xl">Current Location</div>
+        <div>Longitude: {{ currentLocation.longitude || 0 }} </div>
+        <div>Latitude: {{ currentLocation.latitude || 0 }} </div>
+        <div>Accuracy: {{ currentLocation.accuracy || 0 }} </div>
+      </div>
     </div>
   </div>
 
@@ -34,9 +39,11 @@ export default {
   },
   computed: {
       currentLocation() {
-        return `Latitude : ${this.location.latitude}, 
-        Longitude: ${this.location.longitude}, 
-        More or less ${this.location.accuracy} meters.`
+
+        // return `Latitude : ${this.location.latitude}, 
+        // Longitude: ${this.location.longitude}, 
+        // More or less ${this.location.accuracy} meters.`
+        return this.location
       }
   },
   created() {
