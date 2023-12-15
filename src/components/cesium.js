@@ -6,7 +6,7 @@ import axios from "axios";
 import { data } from "autoprefixer";
 
 const scanxapi = axios.create({
-    baseURL: 'http://127.0.0.1:8000'
+    baseURL: 'http://localhost:8080'
   });
 
 const initViewer = async () => {
@@ -36,8 +36,6 @@ const initViewer = async () => {
 }
 
 const showKml = async (viewer, currentLocation) => {
-    console.log('start show kml')
-
     let locations = await scanxapi.get('/locations');
     // console.log(locations)
     console.log(locations.data);
