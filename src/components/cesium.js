@@ -1,9 +1,5 @@
-import { Ion, Viewer, KmlDataSource, Math,
-    ImageryLayer, OpenStreetMapImageryProvider,
-Cartesian3, Cartographic, ScreenSpaceEventType, GeoJsonDataSource,
-ScreenSpaceEventHandler, SceneMode, Color, DataSourceCollection} from "cesium";
+import { Ion, Viewer, Math, ImageryLayer, Cartesian3, Cartographic, GeoJsonDataSource, SceneMode, Color} from "cesium";
 import axios from "axios";
-import { data } from "autoprefixer";
 
 const scanxapi = axios.create({
     baseURL: 'http://localhost:8080'
