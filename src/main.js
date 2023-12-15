@@ -1,9 +1,7 @@
 // import './assets/main.css' <-  Vue-vie template code
 import './style.css'
-
 import { createApp, } from 'vue'
 import {createRouter, createWebHistory } from 'vue-router'
-
 import App from './App.vue'
 import TheCesium from './components/TheCesium.vue'
 import TheHeader from './components/TheHeader.vue'

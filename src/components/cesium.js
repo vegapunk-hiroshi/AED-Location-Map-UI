@@ -33,11 +33,6 @@ const initViewer = async () => {
 
 const showKml = async (viewer, currentLocation) => {
     let locations = await scanxapi.get('/locations');
-    // console.log(locations)
-    console.log(locations.data);
-
-    // let datasource = new DataSourceCollection();
-
     locations.data.forEach((loc) => {
         addPoint(viewer, loc);
     });
