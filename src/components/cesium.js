@@ -1,14 +1,15 @@
 import { Ion, Viewer, Math, ImageryLayer, Cartesian3, Cartographic, GeoJsonDataSource, SceneMode, Color} from "cesium";
 import axios from "axios";
+import config from "@/config";
+
 
 const scanxapi = axios.create({
-    baseURL: 'http://localhost:8080'
+    baseURL: config.get().apiUrl
   });
 
 const initViewer = async () => {
-    // Grant CesiumJS access to your ion assets
-    Ion.defaultAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJiYzM4YTAzNS00MDI0LTRiYWQtODgxNy03ZGJlOWE2M2Q1YzciLCJpZCI6MTUxMTQ4LCJpYXQiOjE2ODg0MzM4MTR9.HwJ6PUcGbJx5lhBbgk92KTfviWtgJvY4JocmtNYediU";
-
+    // Grant CesiumJS access to your ion asset
+    Ion.defaultAccessToken = config.getApiKey();
     const viewer = new Viewer("cesiumContainer", {
         sceneMode: SceneMode.SCENE2D,
         // baseLayerPicker: false,
@@ -87,8 +88,6 @@ const showPathToAED = async (viewer, location) => {
               },
         });
     }
-
-
 }
 
 
