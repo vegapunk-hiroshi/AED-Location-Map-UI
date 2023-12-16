@@ -1,5 +1,5 @@
-const config = {
-    environment: 'nonprod',
+const configuration = {
+    environment: 'development',
     segmentWriteKey: 'SEGMENT_WRITE_KEY',
     release: 'RELEASE_VERSION',
 
@@ -35,4 +35,4 @@ const config = {
     }
 };
 
-export default config;
+export default configuration;

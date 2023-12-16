@@ -1,15 +1,15 @@
 import { Ion, Viewer, Math, ImageryLayer, Cartesian3, Cartographic, GeoJsonDataSource, SceneMode, Color} from "cesium";
 import axios from "axios";
-import config from "@/config";
+import configuration from "@/config";
 
 
 const scanxapi = axios.create({
-    baseURL: config.get().apiUrl
+    baseURL: configuration.get().apiUrl
   });
 
 const initViewer = async () => {
     // Grant CesiumJS access to your ion asset
-    Ion.defaultAccessToken = config.getApiKey();
+    Ion.defaultAccessToken = configuration.getApiKey();
     const viewer = new Viewer("cesiumContainer", {
         sceneMode: SceneMode.SCENE2D,
         // baseLayerPicker: false,
