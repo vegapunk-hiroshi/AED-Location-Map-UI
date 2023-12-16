@@ -1,5 +1,5 @@
 const configuration = {
-    environment: 'development',
+    environment: 'production',
     segmentWriteKey: 'SEGMENT_WRITE_KEY',
     release: 'RELEASE_VERSION',
 
@@ -9,6 +9,10 @@ const configuration = {
         development: {
             apiUrl: 'http://localhost:8080',
             s3Url: 'xxxx'
+        },
+        production: {
+            apiUrl: 'http://57.181.29.44:8080',
+            s3Url: 'https://aaa-storage-v2-prod-ap-northeast-1.s3.ap-northeast-1.amazonaws.com'
         },
         production: {
             broadcastUrl: 'https://echo.prod.cloud.aaa.jp',
