@@ -11,7 +11,7 @@ const configuration = {
             s3Url: 'xxxx'
         },
         production: {
-            apiUrl: '//57.181.29.44/',
+            apiUrl: 'https://57.181.29.44/',
             s3Url: 'https://aaa-storage-v2-prod-ap-northeast-1.s3.ap-northeast-1.amazonaws.com'
         },
         // production: {
