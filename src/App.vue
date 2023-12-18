@@ -4,7 +4,7 @@
 
   <div class="bg-cyan-600 p-5">
     <the-header></the-header>
-    <the-cesium :project-title='projectTitle' :test-api="testAPI"></the-cesium>
+    <the-cesium :project-title='projectTitle'></the-cesium>
 
   </div>
     <!-- <nav>
@@ -24,9 +24,6 @@ export default {
   data() {
     return {
       projectTitle: "AED locations in Sendai",
-      testAPI: {
-        type: Number,
-      }
     }
   },
   computed: {

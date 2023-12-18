@@ -2,10 +2,10 @@
   <div class="text-white">
     <div class="grid grid-flow-col justify-stretch">
       <div>
-        <button class="text-xl border-2 rounded-md p-2 m-2" @click = zoomTo >
+        <button class="text-xl border-2 rounded-md p-2 m-2 hover:bg-sky-700" @click = zoomTo >
           Zoom to current location
         </button>
-        <button class="text-xl border-2 rounded-md p-2 m-2" @click = guideToAED >
+        <button class="text-xl border-2 rounded-md p-2 m-2 hover:bg-sky-700" @click = guideToAED >
           Show the path to the closest AED
         </button>
       </div>
@@ -26,7 +26,7 @@ import { Cartesian3, Color} from 'cesium'
 
 export default {
   name: 'Cesium',
-  props: ['projectTitle', 'testAPI'],
+  props: ['projectTitle'],
   data() {
     return {
       location: {
