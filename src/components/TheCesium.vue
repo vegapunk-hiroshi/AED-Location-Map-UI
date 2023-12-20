@@ -2,8 +2,11 @@
   <div class="text-white">
     <div class="grid grid-flow-col justify-stretch">
       <div>
-        <button class="text-xl border-2 rounded-md p-2 m-2 hover:bg-sky-700" @click = zoomTo >
+        <!-- <button class="text-xl border-2 rounded-md p-2 m-2 hover:bg-sky-700" @click = zoomTo >
           Zoom to current location
+        </button> -->
+        <button class="text-xl border-2 rounded-md p-2 m-2 hover:bg-sky-700" @click = pickLocation >
+          Pick location on the map
         </button>
         <button class="text-xl border-2 rounded-md p-2 m-2 hover:bg-sky-700" @click = guideToAED >
           Show the path to the closest AED
@@ -21,7 +24,7 @@
 </template>
 
 <script>
-import {initViewer, showKml, zoomToCurrentLocation, showPathToAED} from '../components/cesium.js'
+import {initViewer, showKml, zoomToCurrentLocation, showPathToAED, pickLocationMap} from '../components/cesium.js'
 import { Cartesian3, Color} from 'cesium'
 
 export default {
@@ -58,6 +61,11 @@ export default {
     this.getCurrentLocation();
   },
   methods: {
+    pickLocation() {
+      this.viewer.then(()=>{
+        
+      });
+    },
     zoomTo() {
       this.viewer.then((viewer) => {
         zoomToCurrentLocation(viewer, this.location);
@@ -68,7 +76,7 @@ export default {
         showPathToAED(viewer, this.location);
       }).catch((e)=>console.log(e));
     },
-    async getCurrentLocation() {
+    // async getCurrentLocation() {
       function getPosition(options) {
         return new Promise((resolve, reject) => {
           navigator.geolocation.getCurrentPosition(resolve, reject, options);
@@ -103,7 +111,7 @@ export default {
         .catch((err) => {
           console.warn(`ERROR(${err.code}): ${err.message}`);
         });
-    },
+    // },
   }
 }
 </script>
