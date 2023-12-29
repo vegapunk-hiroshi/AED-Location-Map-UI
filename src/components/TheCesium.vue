@@ -12,12 +12,12 @@
           Show the path to the closest AED
         </button>
       </div>
-      <div class="">
+      <!-- <div class="">
         <div class="border-2 p-2 text-xl">Current Location</div>
         <div>Longitude: {{ currentLocation.longitude || 0 }} </div>
         <div>Latitude: {{ currentLocation.latitude || 0 }} </div>
         <div>Accuracy: {{ currentLocation.accuracy || 0 }} </div>
-      </div>
+      </div> -->
     </div>
   </div>
 
@@ -41,13 +41,13 @@ export default {
     }
   },
   computed: {
-      currentLocation() {
+      // currentLocation() {
 
-        // return `Latitude : ${this.location.latitude}, 
-        // Longitude: ${this.location.longitude}, 
-        // More or less ${this.location.accuracy} meters.`
-        return this.location
-      }
+      //   // return `Latitude : ${this.location.latitude}, 
+      //   // Longitude: ${this.location.longitude}, 
+      //   // More or less ${this.location.accuracy} meters.`
+      //   return this.location
+      // }
   },
   created() {
     this.viewer = initViewer();
@@ -57,9 +57,9 @@ export default {
       });
     });
   },
-  mounted() {
-    this.getCurrentLocation();
-  },
+  // mounted() {
+  //   this.getCurrentLocation();
+  // },
   methods: {
     pickLocation() {
       this.viewer.then(()=>{
@@ -68,7 +68,7 @@ export default {
     },
     zoomTo() {
       this.viewer.then((viewer) => {
-        zoomToCurrentLocation(viewer, this.location);
+        // zoomToCurrentLocation(viewer, this.location);
       });
     },
     guideToAED() {
@@ -77,40 +77,40 @@ export default {
       }).catch((e)=>console.log(e));
     },
     // async getCurrentLocation() {
-      function getPosition(options) {
-        return new Promise((resolve, reject) => {
-          navigator.geolocation.getCurrentPosition(resolve, reject, options);
-        });
-      }
+      // function getPosition(options) {
+      //   return new Promise((resolve, reject) => {
+      //     navigator.geolocation.getCurrentPosition(resolve, reject, options);
+      //   });
+      // }
 
-      const options = {
-        enableHighAccuracy: true,
-        timeout: 5000,
-        maximumAge: 0,
-      };
+      // const options = {
+      //   enableHighAccuracy: true,
+      //   timeout: 5000,
+      //   maximumAge: 0,
+      // };
 
-      getPosition(options)
-        .then((pos) => {
-          const crd = pos.coords;
-          this.location = {
-            latitude: crd.latitude,
-            longitude: crd.longitude,
-            accuracy: crd.accuracy
-          };
+      // getPosition(options)
+      //   .then((pos) => {
+      //     const crd = pos.coords;
+      //     this.location = {
+      //       latitude: crd.latitude,
+      //       longitude: crd.longitude,
+      //       accuracy: crd.accuracy
+      //     };
 
-          this.viewer.then((viewer) => {
-            viewer.entities.add({
-                position: Cartesian3.fromDegrees(crd.longitude, crd.latitude),
-                point: {
-                    pixelSize: 50,
-                    color: Color.ORANGE
-                }
-            });
-          });
-        })
-        .catch((err) => {
-          console.warn(`ERROR(${err.code}): ${err.message}`);
-        });
+      //     this.viewer.then((viewer) => {
+      //       viewer.entities.add({
+      //           position: Cartesian3.fromDegrees(crd.longitude, crd.latitude),
+      //           point: {
+      //               pixelSize: 50,
+      //               color: Color.ORANGE
+      //           }
+      //       });
+      //     });
+      //   })
+      //   .catch((err) => {
+      //     console.warn(`ERROR(${err.code}): ${err.message}`);
+      //   });
     // },
   }
 }
