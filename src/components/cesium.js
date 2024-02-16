@@ -1,4 +1,7 @@
-import { Ion, Viewer, Math, ImageryLayer, Cartesian3, Cartographic, GeoJsonDataSource, SceneMode, Color} from "cesium";
+import { Ion, Viewer, Math, ImageryLayer, Cartesian3, 
+    Cartographic, GeoJsonDataSource, SceneMode, Color,
+ScreenSpaceEventHandler, ScreenSpaceEventType, 
+OpenStreetMapImageryProvider, Scene} from "cesium";
 import axios from "axios";
 import configuration from "@/config";
 
@@ -14,9 +17,9 @@ const initViewer = async () => {
         sceneMode: SceneMode.SCENE2D,
         // baseLayerPicker: false,
         baseLayer: ImageryLayer.fromWorldImagery(),
-        // baseLayer: new ImageryLayer(new OpenStreetMapImageryProvider({
-        //     url : 'https://a.tile.openstreetmap.org/'
-        // })),
+        baseLayer: new ImageryLayer(new OpenStreetMapImageryProvider({
+            url : 'https://a.tile.openstreetmap.org/'
+        })),
         animation: false,
         homeButton: false,
         fullscreenButton: false,
@@ -27,12 +30,35 @@ const initViewer = async () => {
         navigationHelpButton: false,
         navigationInstructionsInitiallyVisible: false,
         clockViewModel: null
-        
     });
     return viewer
 }
 
-const showKml = async (viewer, currentLocation) => {
+const pickLocationMap = (viewer, location) => {
+
+    const handler = new ScreenSpaceEventHandler(viewer.canvas);
+    handler.setInputAction((eve)=>{
+        const carto = convertPXtoCarto(viewer, eve.position);
+        if (carto) showPathToAED(viewer, carto);
+
+    }, ScreenSpaceEventType.LEFT_CLICK);
+}
+
+const convertPXtoCarto = (viewer, px) => {
+    if (viewer.scene.pickPositionSupported) {
+        const cartesian = viewer.camera.pickEllipsoid(px);
+        if (cartesian){
+            const carto = Cartographic.fromCartesian(cartesian);
+            const degrees = {
+                'longitude': Math.toDegrees(carto.longitude),
+                'latitude': Math.toDegrees(carto.latitude)
+            }
+            return degrees
+        }
+    }
+}
+
+const showPoints = async (viewer) => {
     let locations = await scanxapi.get('/locations');
     locations.data.forEach((loc) => {
         addPoint(viewer, loc);
@@ -63,32 +89,31 @@ const addPoint = (viewer, place_mark) => {
 }
 
 const showPathToAED = async (viewer, location) => {
-    const longitude = location.longitude;
-    const latitude = location.latitude;
+    const longitude = location.longitude || 135;
+    const latitude = location.latitude || 35;
     const queryPath = '/closest/?longitude=' + longitude + '&latitude=' + latitude;
     let closest = await scanxapi.get(queryPath);
-    console.log('closest', closest, closest.status);
-    console.log('data', closest.data);
     if(closest.status == 200) {
         const dataSource = GeoJsonDataSource.load(closest.data);
-        viewer.dataSources.add(dataSource);
-        viewer.zoomTo(dataSource);
+        // viewer.dataSources.add(dataSource);
+        // viewer.zoomTo(dataSource);
         let cartesians = [];
         
         closest.data.coordinates.forEach((lonlat)=>{
-            // console.log(lonlat)
             cartesians.push(Cartesian3.fromDegrees(lonlat[0], lonlat[1]));
         });
-        viewer.entities.add({
+        let poly = viewer.entities.add({
             polyline: {
+                // show: false,
                 positions: cartesians,
-                width: 2,
+                width: 8,
                 material: Color.RED,
                 clampToGround: true,
               },
         });
+        viewer.zoomTo(poly);
     }
 }
 
 
-export {initViewer, showKml, zoomToCurrentLocation, showPathToAED};
+export {initViewer, showPoints, zoomToCurrentLocation, showPathToAED, pickLocationMap};

@@ -1,6 +1,5 @@
 const configuration = {
-    environment: 'production',
-    segmentWriteKey: 'SEGMENT_WRITE_KEY',
+    environment: 'development',
     release: 'RELEASE_VERSION',
 
     cookie_name: 'aed_token',
